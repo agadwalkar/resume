@@ -669,8 +669,9 @@ strong { font-weight: 600; color: var(--text); }
 
 /* ─── SKILLS ─────────────────────────────────────────────────── */
 .skills-grid {
-  columns: 3;
-  column-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .skill-group {
@@ -679,10 +680,6 @@ strong { font-weight: 600; color: var(--text); }
   border-radius: var(--radius-lg);
   padding: 26px;
   transition: var(--transition);
-  display: inline-block;
-  width: 100%;
-  break-inside: avoid;
-  margin-bottom: 20px;
 }
 
 .skill-group:hover {
@@ -749,6 +746,11 @@ strong { font-weight: 600; color: var(--text); }
   border-color: rgba(244,143,177,0.25);
 }
 .skill-tag.devops:hover { background: rgba(244,143,177,0.25); }
+
+/* ─── INTERNSHIPS: cap at 2 columns so 4 cards balance 2-2 ─── */
+#internships-grid {
+  columns: 2;
+}
 
 /* ─── FOOTER ─────────────────────────────────────────────────── */
 #footer {
@@ -828,6 +830,8 @@ strong { font-weight: 600; color: var(--text); }
 
   /* Projects grid: 1 column on tablet */
   .projects-grid { columns: 1; }
+  #internships-grid { columns: 1; }
+  .skills-grid { grid-template-columns: 1fr; }
   .project-card { padding: 20px; margin-bottom: 16px; }
 
   /* Card shared styles on mobile */
@@ -852,14 +856,12 @@ strong { font-weight: 600; color: var(--text); }
   .card-bullets li { font-size: 0.82rem; }
   .card-tags { gap: 5px; }
   .tag { font-size: 0.69rem; }
-  .skills-grid { columns: 1; }
   .edu-grid { grid-template-columns: 1fr; }
   .section-title { font-size: 1.6rem; }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .projects-grid { columns: 2; }
-  .skills-grid { columns: 2; }
 }
 
 /* ─── SCROLLBAR ─────────────────────────────────────────────── */
