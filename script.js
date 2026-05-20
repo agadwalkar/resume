@@ -47,15 +47,27 @@
 (function initNav() {
   const navbar   = document.getElementById('navbar');
   const navLinks = document.querySelectorAll('.nav-links a, .nav-menu-list a');
-  const menuLabel = document.querySelector('.nav-menu-label');
+  const navBtn   = document.getElementById('nav-download');
+  const menu     = document.querySelector('.nav-menu');
+  const menuBtn  = document.querySelector('.nav-menu-toggle');
+  const menuList = document.querySelector('.nav-menu-list');
   const sections = document.querySelectorAll('section[id]');
 
   function onScroll() {
     // Frosted-glass effect once past hero
-    if (window.scrollY > 60) {
+    const isHeaderVisible = window.scrollY > 60;
+    if (isHeaderVisible) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
+    }
+    navbar.classList.toggle('nav-actions-visible', isHeaderVisible);
+    if (navBtn) navBtn.classList.toggle('visible', isHeaderVisible);
+
+    if (!isHeaderVisible && menu) {
+      menu.classList.remove('open');
+      if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+      if (menuList) menuList.setAttribute('aria-hidden', 'true');
     }
 
     // Active nav link based on viewport
@@ -65,13 +77,10 @@
       if (window.scrollY >= top) current = section.id;
     });
 
-    let activeText = 'Menu';
     navLinks.forEach(link => {
       const isActive = link.getAttribute('href') === '#' + current;
       link.classList.toggle('active', isActive);
-      if (isActive) activeText = link.textContent.trim();
     });
-    if (menuLabel) menuLabel.textContent = activeText;
   }
 
   function var_navH() {
@@ -162,22 +171,6 @@
       window.scrollTo({ top, behavior: 'smooth' });
     });
   });
-})();
-
-// ─── NAV DOWNLOAD BUTTON: show after hero CTA scrolls away ───
-(function initNavDownload() {
-  const heroBtn  = document.querySelector('.hero-cta .btn-ghost');
-  const navBtn   = document.getElementById('nav-download');
-  if (!heroBtn || !navBtn) return;
-
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      navBtn.classList.toggle('visible', !entry.isIntersecting);
-    },
-    { threshold: 0 }
-  );
-
-  observer.observe(heroBtn);
 })();
 
 // ─── HERO: staggered entrance on load ────────────────────────

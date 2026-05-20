@@ -223,16 +223,15 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .nav-menu-toggle {
-  width: min(178px, 42vw);
   height: 38px;
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 0 12px 0 14px;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
   color: var(--text-muted);
-  background: rgba(30, 30, 30, 0.86);
-  border: 1px solid var(--border-2);
+  background: transparent;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
   font: inherit;
   font-size: 0.84rem;
@@ -245,7 +244,7 @@ strong { font-weight: 600; color: var(--text); }
 .nav-menu.open .nav-menu-toggle {
   color: var(--text);
   border-color: var(--accent);
-  background: var(--surface-2);
+  background: var(--accent-dim);
 }
 
 .nav-menu-toggle svg {
@@ -256,7 +255,7 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .nav-menu.open .nav-menu-toggle svg {
-  transform: rotate(180deg);
+  transform: scaleX(0.86);
 }
 
 .nav-menu-label {
@@ -267,6 +266,7 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 .nav-menu-list {
+  display: none;
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
@@ -278,17 +278,11 @@ strong { font-weight: 600; color: var(--text); }
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
   transform: translateY(-6px);
-  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
 }
 
 .nav-menu.open .nav-menu-list {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  display: block;
   transform: translateY(0);
 }
 
@@ -914,18 +908,23 @@ strong { font-weight: 600; color: var(--text); }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  /* Nav: swap horizontal links for a compact dropdown when the window narrows */
-  .nav-links { display: none; }
-  .nav-menu { display: flex; }
+  /* Nav: tighten spacing while the card layout is still multi-column */
   .nav-inner {
-    gap: 12px;
+    gap: 16px;
     justify-content: space-between;
     padding: 0 16px;
   }
+  .nav-links { gap: 4px; }
+  .nav-links a { padding: 6px 10px; font-size: 0.82rem; }
   .btn-outline { padding: 8px 12px; font-size: 0.8rem; }
 }
 
 @media (max-width: 768px) {
+  /* Nav: use the dropdown only once cards collapse to a single column */
+  .nav-links { display: none; }
+  #navbar.nav-actions-visible .nav-menu { display: flex; }
+  .nav-inner { gap: 12px; }
+
   .section { padding: 64px 0; }
   .section-header { margin-bottom: 40px; }
 
@@ -946,13 +945,23 @@ strong { font-weight: 600; color: var(--text); }
 
   /* Hero */
   .hero-name { letter-spacing: -0.02em; }
-  .hero-scroll-indicator { display: none; }
   .hero-contacts { gap: 8px; }
 }
 
 @media (max-width: 480px) {
   .nav-inner { gap: 8px; padding: 0 12px; }
-  .nav-menu-toggle { width: min(150px, 44vw); }
+  .nav-menu-toggle {
+    width: 38px;
+    padding: 0;
+  }
+  .nav-menu-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
   #nav-download {
     width: 38px;
     height: 38px;
