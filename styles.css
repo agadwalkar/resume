@@ -913,8 +913,8 @@ strong { font-weight: 600; color: var(--text); }
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  /* Nav: swap horizontal links for a compact dropdown */
+@media (max-width: 1024px) {
+  /* Nav: swap horizontal links for a compact dropdown when the window narrows */
   .nav-links { display: none; }
   .nav-menu { display: flex; }
   .nav-inner {
@@ -923,7 +923,9 @@ strong { font-weight: 600; color: var(--text); }
     padding: 0 16px;
   }
   .btn-outline { padding: 8px 12px; font-size: 0.8rem; }
+}
 
+@media (max-width: 768px) {
   .section { padding: 64px 0; }
   .section-header { margin-bottom: 40px; }
 
