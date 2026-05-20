@@ -46,7 +46,8 @@
 // ─── NAV: Scroll state + active section highlight ─────────────
 (function initNav() {
   const navbar   = document.getElementById('navbar');
-  const navLinks = document.querySelectorAll('.nav-links a');
+  const navLinks = document.querySelectorAll('.nav-links a, .nav-menu-list a');
+  const menuLabel = document.querySelector('.nav-menu-label');
   const sections = document.querySelectorAll('section[id]');
 
   function onScroll() {
@@ -64,9 +65,13 @@
       if (window.scrollY >= top) current = section.id;
     });
 
+    let activeText = 'Menu';
     navLinks.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+      const isActive = link.getAttribute('href') === '#' + current;
+      link.classList.toggle('active', isActive);
+      if (isActive) activeText = link.textContent.trim();
     });
+    if (menuLabel) menuLabel.textContent = activeText;
   }
 
   function var_navH() {
@@ -76,6 +81,37 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll(); // run once on load
+})();
+
+// ─── MOBILE NAV MENU ─────────────────────────────────────────
+(function initNavMenu() {
+  const menu = document.querySelector('.nav-menu');
+  const button = document.querySelector('.nav-menu-toggle');
+  const list = document.querySelector('.nav-menu-list');
+  const links = document.querySelectorAll('.nav-menu-list a');
+  if (!menu || !button) return;
+
+  function setOpen(isOpen) {
+    menu.classList.toggle('open', isOpen);
+    button.setAttribute('aria-expanded', String(isOpen));
+    if (list) list.setAttribute('aria-hidden', String(!isOpen));
+  }
+
+  button.addEventListener('click', () => {
+    setOpen(!menu.classList.contains('open'));
+  });
+
+  links.forEach(link => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!menu.contains(event.target)) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
 })();
 
 // ─── REVEAL: Intersection Observer for scroll animations ──────
